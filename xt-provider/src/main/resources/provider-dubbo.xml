@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd        http://dubbo.apache.org/schema/dubbo        http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+        <dubbo:application name="xt-provider"></dubbo:application>
+        <dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry>
+        <dubbo:protocol port="20880" name="dubbo"></dubbo:protocol>
+        <bean id="blogimpl" class="com.sina.impl.Blogimpl"></bean>
+        <dubbo:service interface="com.sina.api.IBlogApi" ref="blogimpl"></dubbo:service>
+</beans>

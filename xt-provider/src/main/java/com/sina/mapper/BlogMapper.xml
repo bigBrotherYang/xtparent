@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sina.dao.BlogMapper">
+  <resultMap id="BaseResultMap" type="com.sina.pojo.Blog">
+    <id column="b_id" jdbcType="INTEGER" property="bId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sina.pojo.Blog">
+    <result column="context" jdbcType="LONGVARCHAR" property="context" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    b_id, user_id, type
+  </sql>
+  <sql id="Blob_Column_List">
+    context
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    where b_id = #{bId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog
+    where b_id = #{bId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sina.pojo.Blog">
+    insert into blog (b_id, user_id, type, 
+      context)
+    values (#{bId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{context,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sina.pojo.Blog">
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        b_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="context != null">
+        context,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        #{bId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="context != null">
+        #{context,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sina.pojo.Blog">
+    update blog
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="context != null">
+        context = #{context,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where b_id = #{bId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sina.pojo.Blog">
+    update blog
+    set user_id = #{userId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      context = #{context,jdbcType=LONGVARCHAR}
+    where b_id = #{bId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sina.pojo.Blog">
+    update blog
+    set user_id = #{userId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER}
+    where b_id = #{bId,jdbcType=INTEGER}
+  </update>
+</mapper>
